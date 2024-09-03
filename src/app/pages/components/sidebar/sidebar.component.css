@@ -82,7 +82,21 @@
 }
 
 .active {
-    background-color: #25680abe;
+    background-color: #318b0ebe;
+    .sidenav-link-icon,
+    .sidenav-link-text{
+        color: #ffffff;
+    }
+}
+.active2 {
+    background-color: #318b0ebe;
+    .sidenav-link-icon,
+    .sidenav-link-text{
+        color: #ffffff;
+    }
+}
+.active3 {
+    background-color: #318b0ebe;
     .sidenav-link-icon,
     .sidenav-link-text{
         color: #ffffff;
@@ -106,13 +120,7 @@ button[mat-button] {
    .sidenav-link-icon {
         margin: 0 30px;
     }
-/*hover in side*/
-.sidenav-nav-item:hover {
-    .sidenav-nav-link {
-         background-color: #288d1b;
-         color: #ffffff;
-    }
-}
+
     .example-container {
         flex-direction: column;
         /* Stack the drawer and content on smaller screens */
