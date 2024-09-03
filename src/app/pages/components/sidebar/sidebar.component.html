@@ -1,7 +1,7 @@
 <mat-drawer-container class="example-container" autosize>
     <mat-drawer #drawer class="example-sidenav" mode="side">
       <div class="sidenav-header">
-        <h3>Stock Verification</h3>
+        <a class="text-3xl font-bold">Stock Verification</a>
       </div>
       <div class="sidenav-content">
         <ul class="sidenav-nav">
@@ -15,8 +15,8 @@
         
             <!-- Settings with submenu -->
             <div *ngIf="data1.children">
-              <a class="sidenav-nav-link" (click)="toggleDropdown(data1)">
-                <i class="sidenav-link-icon" [class]="data1?.icon"></i>
+              <a class="sidenav-nav-link" (click)="toggleDropdown(data1)"> &nbsp;&nbsp;
+                <i class="sidenav-link-icon" [class]="data1?.icon"> </i>
                 <span class="sidenav-link-text">{{data1?.Label}}</span>
                 <i class="fas fa-chevron-down" *ngIf="!data1.showChildren"></i>
                 <i class="fas fa-chevron-up" *ngIf="data1.showChildren"></i>
