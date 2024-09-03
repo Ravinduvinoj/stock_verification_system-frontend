@@ -25,12 +25,32 @@
               <!-- Submenu items (Company, Stores, Category) -->
               <ul class="submenu" *ngIf="data1.showChildren">
                 <li class="submenu-item" *ngFor="let child of data1.children">
-                  <a class="sidenav-nav-link" [routerLink]="[child.routeLink]" routerLinkActive="active">
+                  <a class="sidenav-nav-link" [routerLink]="[child.routeLink]" routerLinkActive="active" *ngIf="!child.children">
                     <i class="sidenav-link-icon" [class]="child.icon"></i>
-                    <span class="sidenav-link-text">{{child.Label}}</span>
+                    <span class="sidenav-link-text">{{ child.Label }}</span>
                   </a>
+              
+                  <!-- Check for second-level children (Stores sub-list) -->
+                  <div *ngIf="child.children">
+                    <a class="sidenav-nav-link" (click)="toggleDropdown(child)"> &nbsp;&nbsp;
+                      <i class="sidenav-link-icon" [class]="child?.icon"> </i>
+                      <span class="sidenav-link-text">{{ child?.Label }}</span>
+                      <i class="fas fa-chevron-down" *ngIf="!child.showChildren"></i>
+                      <i class="fas fa-chevron-up" *ngIf="child.showChildren"></i>
+                    </a>
+              
+                    <ul class="submenu" *ngIf="child.showChildren">
+                      <li class="submenu-item" *ngFor="let subChild of child.children">
+                        <a class="sidenav-nav-link" [routerLink]="[subChild.routeLink]" routerLinkActive="active">
+                          <i class="sidenav-link-icon" [class]="subChild.icon"></i>
+                          <span class="sidenav-link-text">{{ subChild.Label }}</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </li>
               </ul>
+              
             </div>
           </li>
         </ul>

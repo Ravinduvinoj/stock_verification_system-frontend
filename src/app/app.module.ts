@@ -16,6 +16,9 @@ import { ManualScanComponent } from './Modules/user/components/manual-scan/manua
 import { CompanyComponent } from './Modules/user/components/settings/company/company.component';
 import { CategoryComponent } from './Modules/user/components/settings/category/category.component';
 import { StoresComponent } from './Modules/user/components/settings/stores/stores.component';
+import { MainStoreComponent } from './Modules/user/components/settings/stores/pages/main-store/main-store.component';
+import { SubStoreComponent } from './Modules/user/components/settings/stores/pages/sub-store/sub-store.component';
+import { IslandComponent } from './Modules/user/components/settings/stores/pages/island/island.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +33,9 @@ import { StoresComponent } from './Modules/user/components/settings/stores/store
     CompanyComponent,
     CategoryComponent,
     StoresComponent,
+    MainStoreComponent,
+    SubStoreComponent,
+    IslandComponent,
   ],
   imports: [
     BrowserModule,

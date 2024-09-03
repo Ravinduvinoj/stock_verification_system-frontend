@@ -29,7 +29,7 @@
 }
 .submenu {
     list-style: none;
-    padding-left: 20px;
+    padding-left: 10px;
     margin: 0;
   }
   .submenu-item {
@@ -81,13 +81,6 @@
     white-space: nowrap;
 }
 
-/*hover in side*/
-/* .sidenav-nav-item:hover {
-    .sidenav-nav-link {
-         background-color: #288d1b;
-         color: #ffffff;
-    }
-} */
 .active {
     background-color: #25680abe;
     .sidenav-link-icon,

@@ -1,26 +1,21 @@
-
-export const adminData = [//load all admin components
+export const adminData = [
      {
           routeLink: 'items',
           icon: 'fas fa-home',
           Label: 'Items'
-
      },
      {
           routeLink: 'stock-adjustemnt',
-          icon: 'fas fa-layer-group',
+          icon: 'fad fa-layer-plus',
           Label: 'Stock Adjustemnt'
-
      },
      {
           routeLink: 'manual-scan',
-          icon: 'fas fa-chalkboard-teacher',
+          icon: 'fad fa-file-search',
           Label: 'manual scan'
-
      },
      {
-          
-          icon: 'fas fa-users-cog',
+          icon: 'far fa-cog',
           Label: 'Settings',
           children: [
                {
@@ -29,17 +24,31 @@ export const adminData = [//load all admin components
                     icon: 'fas fa-building'
                },
                {
-                    routeLink: 'settings/stores',
-                    Label: 'Stores',
-                    icon: 'fas fa-store'
-               },
-               {
                     routeLink: 'settings/category',
                     Label: 'Category',
                     icon: 'fas fa-list'
+               },
+               {
+                    Label: 'Stores',
+                    icon: 'fas fa-store',
+                    children: [
+                         {
+                              routeLink: 'settings/stores/main-store',
+                              Label: 'Main Store',
+                              icon: 'fas fa-warehouse'
+                         },
+                         {
+                              routeLink: 'settings/stores/sub-store',
+                              Label: 'Sub Store',
+                              icon: 'fas fa-store-alt'
+                         },
+                         {
+                              routeLink: 'settings/stores/island',
+                              Label: 'Island',
+                              icon: 'fas fa-island-tropical'
+                         }
+                    ]
                }
           ]
      }
-]
-
-
+];

@@ -8,11 +8,16 @@ import { ManualScanComponent } from './Modules/user/components/manual-scan/manua
 import { CompanyComponent } from './Modules/user/components/settings/company/company.component';
 import { CategoryComponent } from './Modules/user/components/settings/category/category.component';
 import { StoresComponent } from './Modules/user/components/settings/stores/stores.component';
+import { LoginComponent } from './pages/login/login.component';
+import { MainStoreComponent } from './Modules/user/components/settings/stores/pages/main-store/main-store.component';
+import { SubStoreComponent } from './Modules/user/components/settings/stores/pages/sub-store/sub-store.component';
+import { IslandComponent } from './Modules/user/components/settings/stores/pages/island/island.component';
 
 
 
 const routes: Routes = [
   { path: "", redirectTo: 'user', pathMatch: 'full' },
+  {path:"login",component:LoginComponent},
   { path: "user", component: UserComponent },
   {
     path: "user", component: UserComponent, children: [
@@ -22,7 +27,12 @@ const routes: Routes = [
           {path: "", redirectTo: 'settings/company', pathMatch: "full"},
         {path:"company",component:CompanyComponent},
         {path:"category",component:CategoryComponent},
-        {path:"stores",component:StoresComponent}]
+        {path:"stores",component:StoresComponent, children:[
+          { path: "", redirectTo: 'user/settings/store', pathMatch: "full" },
+          {path:"main-store",component:MainStoreComponent}, 
+          {path:"sub-store",component:SubStoreComponent},
+          {path:"island",component:IslandComponent},
+        ]}]
       },
       { path: "items", component: ItemsComponent },
       { path: "stock-adjustemnt", component: StockAdjustemntComponent },
