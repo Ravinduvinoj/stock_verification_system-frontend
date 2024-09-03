@@ -1,0 +1,48 @@
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+      <div class="sidenav-header">
+        <h3>Stock Verification</h3>
+      </div>
+      <div class="sidenav-content">
+        <ul class="sidenav-nav">
+          <li class="sidenav-nav-item" *ngFor="let data1 of navData">
+            <!-- Main menu item with no children -->
+            <a class="sidenav-nav-link" [routerLink]="[data1?.routeLink]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}" *ngIf="!data1.children">
+                <i class="sidenav-link-icon" [class]="data1?.icon"></i>
+                <span class="sidenav-link-text">{{data1?.Label}}</span>
+            </a>
+        
+            <!-- Settings with submenu -->
+            <div *ngIf="data1.children">
+              <a class="sidenav-nav-link" (click)="toggleDropdown(data1)">
+                <i class="sidenav-link-icon" [class]="data1?.icon"></i>
+                <span class="sidenav-link-text">{{data1?.Label}}</span>
+                <i class="fas fa-chevron-down" *ngIf="!data1.showChildren"></i>
+                <i class="fas fa-chevron-up" *ngIf="data1.showChildren"></i>
+              </a>
+        
+              <!-- Submenu items (Company, Stores, Category) -->
+              <ul class="submenu" *ngIf="data1.showChildren">
+                <li class="submenu-item" *ngFor="let child of data1.children">
+                  <a class="sidenav-nav-link" [routerLink]="[child.routeLink]" routerLinkActive="active">
+                    <i class="sidenav-link-icon" [class]="child.icon"></i>
+                    <span class="sidenav-link-text">{{child.Label}}</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </mat-drawer>
+  
+    <div class="example-sidenav-content">
+
+      <button mat-button color="primary" (click)="drawer.toggle()" (click)="showFiller = !showFiller">
+        
+        <i class="fas fa-bars"></i> 
+      </button>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-container>

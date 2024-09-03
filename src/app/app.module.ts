@@ -3,17 +3,43 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
+import { SidebarComponent } from './pages/components/sidebar/sidebar.component';
+import { LoginComponent } from './pages/login/login.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { HeaderComponent } from './pages/components/header/header.component';
+import { UserComponent } from './Modules/user/user.component';
+import { SettingsComponent } from './Modules/user/components/settings/settings.component';
+import { ItemsComponent } from './Modules/user/components/items/items.component';
+import { StockAdjustemntComponent } from './Modules/user/components/stock-adjustemnt/stock-adjustemnt.component';
+import { ManualScanComponent } from './Modules/user/components/manual-scan/manual-scan.component';
+import { CompanyComponent } from './Modules/user/components/settings/company/company.component';
+import { CategoryComponent } from './Modules/user/components/settings/category/category.component';
+import { StoresComponent } from './Modules/user/components/settings/stores/stores.component';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SidebarComponent,
+    LoginComponent,
+    HeaderComponent,
+    UserComponent,
+    SettingsComponent,
+    ItemsComponent,
+    StockAdjustemntComponent,
+    ManualScanComponent,
+    CompanyComponent,
+    CategoryComponent,
+    StoresComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatSidenavModule
+
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })
