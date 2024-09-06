@@ -16,7 +16,7 @@ import { IslandComponent } from './Modules/user/components/settings/stores/pages
 
 
 const routes: Routes = [
-  { path: "", redirectTo: 'user', pathMatch: 'full' },
+  { path: "", redirectTo: 'user/items', pathMatch: 'full' },
   {path:"login",component:LoginComponent},
   { path: "user", component: UserComponent },
   {
