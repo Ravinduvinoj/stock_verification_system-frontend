@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrl: './company.component.css'
 })
 export class CompanyComponent {
+createJob() {
+
+}
+exportExcel() {
+
+}
 
 }
