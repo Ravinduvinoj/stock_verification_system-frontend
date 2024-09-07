@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-
+import { MatDialogModule } from '@angular/material/dialog'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './pages/components/sidebar/sidebar.component';
@@ -19,6 +19,9 @@ import { StoresComponent } from './Modules/user/components/settings/stores/store
 import { MainStoreComponent } from './Modules/user/components/settings/stores/pages/main-store/main-store.component';
 import { SubStoreComponent } from './Modules/user/components/settings/stores/pages/sub-store/sub-store.component';
 import { IslandComponent } from './Modules/user/components/settings/stores/pages/island/island.component';
+import { NewComComponent } from './Modules/user/components/settings/company/components/new-com/new-com.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,11 +39,17 @@ import { IslandComponent } from './Modules/user/components/settings/stores/pages
     MainStoreComponent,
     SubStoreComponent,
     IslandComponent,
+    NewComComponent,
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule
 
   ],
   providers: [
