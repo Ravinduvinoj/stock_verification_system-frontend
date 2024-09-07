@@ -63,12 +63,14 @@
       </div>
   </mat-drawer>
 
-  <div class="flex float-left justify-center ml-5 ">
-      <button mat-button class=" 2xl:mt-[-82px] 2xl:ml-1 md:ml-1 md:mt-[-41px] mt-[-80px]  ml-[-35px]" color="primary" (click)="drawer.toggle()" (click)="showFiller = !showFiller">
+  <div class="flex float-left justify-center ml-7 mt-6">
+    
+      <button mat-button class="" color="primary" (click)="drawer.toggle()" (click)="showFiller = !showFiller">
           <i class="fas fa-bars text-black text-4xl transition-all duration-500"></i>
       </button>
-      <router-outlet></router-outlet>
+      
   </div>
+  <router-outlet></router-outlet>
 </mat-drawer-container>
 
 

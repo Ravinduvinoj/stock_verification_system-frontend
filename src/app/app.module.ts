@@ -25,6 +25,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NewCategoryComponent } from './Modules/user/components/settings/category/components/new-category/new-category.component';
 import { NewMainStoreComponent } from './Modules/user/components/settings/stores/pages/main-store/components/new-main-store/new-main-store.component';
+import {MatTableModule} from '@angular/material/table';
+import { MatPaginatorModule} from '@angular/material/paginator';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,7 +58,10 @@ import { NewMainStoreComponent } from './Modules/user/components/settings/stores
     MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatCheckboxModule
 
   ],
   providers: [
