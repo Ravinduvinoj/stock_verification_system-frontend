@@ -23,6 +23,8 @@ import { NewComComponent } from './Modules/user/components/settings/company/comp
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NewCategoryComponent } from './Modules/user/components/settings/category/components/new-category/new-category.component';
+import { NewMainStoreComponent } from './Modules/user/components/settings/stores/pages/main-store/components/new-main-store/new-main-store.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +43,8 @@ import { MatInputModule } from '@angular/material/input';
     SubStoreComponent,
     IslandComponent,
     NewComComponent,
+    NewCategoryComponent,
+    NewMainStoreComponent,
     
   ],
   imports: [

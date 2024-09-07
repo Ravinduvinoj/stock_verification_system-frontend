@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { NewCategoryComponent } from './components/new-category/new-category.component';
 
 @Component({
   selector: 'app-category',
@@ -6,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrl: './category.component.css'
 })
 export class CategoryComponent {
+
+  constructor(public dialog: MatDialog,){
+
+  }
+createCategory() {
+this.dialog.open(NewCategoryComponent)
+}
 
 }
