@@ -8,7 +8,7 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrl: './new-com.component.css'
 })
 export class NewComComponent implements OnInit{
-  form!: FormGroup; // Declare the form outside the constructor
+  form!: FormGroup;
 
   constructor(
     private _fb: FormBuilder,
@@ -25,7 +25,7 @@ export class NewComComponent implements OnInit{
 
   onPostAdd() {
     if (this.form.valid) {
-      // Add functionality for form submission
+
       console.log(this.form.value);
     } else {
       console.log("Form is invalid");
