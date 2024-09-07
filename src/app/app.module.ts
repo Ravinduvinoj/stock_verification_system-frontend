@@ -22,6 +22,7 @@ import { IslandComponent } from './Modules/user/components/settings/stores/pages
 import { NewComComponent } from './Modules/user/components/settings/company/components/new-com/new-com.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +50,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatDialogModule,
     MatFormFieldModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatInputModule
 
   ],
   providers: [
