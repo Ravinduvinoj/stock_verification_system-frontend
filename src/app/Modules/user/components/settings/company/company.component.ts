@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort } from '@angular/material/sort';
+import { MatMenuTrigger } from '@angular/material/menu';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -22,7 +23,7 @@ export class CompanyComponent implements AfterViewInit{
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;  // <-- ViewChild for MatSort
-  
+
   constructor(public dialog: MatDialog) {}
   ngAfterViewInit() {
     // Attach paginator and sorter to the data source
@@ -62,6 +63,27 @@ export class CompanyComponent implements AfterViewInit{
   createCom() {
     this.dialog.open(NewComComponent);
   }
+  selectedRow: any;
+
+  onRightClick(event: MouseEvent, row: any, menuTrigger: MatMenuTrigger) {
+    event.preventDefault(); // Prevent the default browser right-click menu
+    this.selectedRow = row;
+
+    // Open the context menu at the cursor's position
+    menuTrigger.openMenu();
+  }
+
+  exportElement(row: any) {
+    // Implement export logic here
+    console.log("Exporting row: ", row);
+  }
+
+  deselectElement(row: any) {
+    // Implement deselect logic here
+    console.log("Deselecting row: ", row);
+    this.selection.deselect(row);
+  }
+  
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
