@@ -10,9 +10,9 @@
                     <div class="absolute inset-y-0 left-[-1] pl-5 flex items-center pointer-events-none ">
                         <i class="fad fa-file-search text-sm"></i>
                     </div>
-                    <input type="text"
+                    <input type="text" matInput (keyup)="applyFilter($event)"
                         class="bg-gray-50 border-4 border-lime-600  text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block 2xl:w-[300px] md:w-[220px] w-[130px] 2xl:pl-10 pl-10 p-2 "
-                        placeholder="Search...">
+                        placeholder="Search..." #input>
                 </div>
             </div>
             <div class="flex justify-between mt-[-25px]  md:w-auto md:order-1 md:ml-[-45px] 2xl:mt-2">
@@ -43,58 +43,59 @@
     
 
         <div class="table-auto w-full mt-6">
-            <table mat-table [dataSource]="dataSource" class="min-w-full border-collapse">
+            <table mat-table [dataSource]="dataSource" matSort class="min-w-full border-collapse">
 
                 <!-- Checkbox Column -->
                 <ng-container matColumnDef="select">
-                    <th mat-header-cell *matHeaderCellDef> 
-                        <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                            [checked]="selection.hasValue() && isAllSelected()"
-                            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                        </mat-checkbox>select all
-                    </th>
-                    <td mat-cell *matCellDef="let row">
-                        <mat-checkbox (click)="$event.stopPropagation()"
-                            (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
-                            [aria-label]="checkboxLabel(row)">
-                        </mat-checkbox>
-                    </td>
+                  <th mat-header-cell *matHeaderCellDef> 
+                    <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                  [checked]="selection.hasValue() && isAllSelected()"
+                                  [indeterminate]="selection.hasValue() && !isAllSelected()" 
+                                  [aria-label]="checkboxLabel()">Select All
+                    </mat-checkbox>
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                                  (change)="$event ? selection.toggle(row) : null" 
+                                  [checked]="selection.isSelected(row)"
+                                  [aria-label]="checkboxLabel(row)">
+                    </mat-checkbox>
+                  </td>
                 </ng-container>
-
+              
                 <!-- Position Column -->
                 <ng-container matColumnDef="position">
-                    <th mat-header-cell *matHeaderCellDef class="p-4 text-left font-semibold bg-gray-100 border-b ">No.
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="p-4 border-b">{{ element.position }}</td>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>  <!-- Sorting added here -->
+                  <td mat-cell *matCellDef="let element">{{ element.position }}</td>
                 </ng-container>
-
+              
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef class="p-4 text-left font-semibold bg-gray-100 border-b">Name
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="p-4 border-b">{{ element.name }}</td>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th> <!-- Sorting added here -->
+                  <td mat-cell *matCellDef="let element">{{ element.name }}</td>
                 </ng-container>
-
+              
                 <!-- Weight Column -->
                 <ng-container matColumnDef="weight">
-                    <th mat-header-cell *matHeaderCellDef class="p-4 text-left font-semibold bg-gray-100 border-b">
-                        Weight</th>
-                    <td mat-cell *matCellDef="let element" class="p-4 border-b">{{ element.weight }}</td>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Weight</th> <!-- Sorting added here -->
+                  <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
                 </ng-container>
-
+              
                 <!-- Symbol Column -->
                 <ng-container matColumnDef="symbol">
-                    <th mat-header-cell *matHeaderCellDef class="p-4 text-left font-semibold bg-gray-100 border-b">
-                        Symbol</th>
-                    <td mat-cell *matCellDef="let element" class="p-4 border-b">{{ element.symbol }}</td>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Symbol</th> <!-- Sorting added here -->
+                  <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
                 </ng-container>
-
+              
                 <!-- Header Row -->
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-
+              
                 <!-- Data Rows -->
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell text-center" colspan="4">No data matching the filter "{{input.value}}"</td>
+                  </tr>
+              </table>
         </div>
     </div>
 </div>

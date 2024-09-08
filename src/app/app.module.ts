@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { SidebarComponent } from './pages/components/sidebar/sidebar.component';
 import { LoginComponent } from './pages/login/login.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { HeaderComponent } from './pages/components/header/header.component';
 import { UserComponent } from './Modules/user/user.component';
 import { SettingsComponent } from './Modules/user/components/settings/settings.component';
@@ -21,13 +21,14 @@ import { SubStoreComponent } from './Modules/user/components/settings/stores/pag
 import { IslandComponent } from './Modules/user/components/settings/stores/pages/island/island.component';
 import { NewComComponent } from './Modules/user/components/settings/company/components/new-com/new-com.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NewCategoryComponent } from './Modules/user/components/settings/category/components/new-category/new-category.component';
 import { NewMainStoreComponent } from './Modules/user/components/settings/stores/pages/main-store/components/new-main-store/new-main-store.component';
-import {MatTableModule} from '@angular/material/table';
-import { MatPaginatorModule} from '@angular/material/paginator';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSortModule } from '@angular/material/sort';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +49,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     NewComComponent,
     NewCategoryComponent,
     NewMainStoreComponent,
-    
+
   ],
   imports: [
     BrowserModule,
@@ -61,7 +62,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatInputModule,
     MatTableModule,
     MatPaginatorModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSortModule
 
   ],
   providers: [

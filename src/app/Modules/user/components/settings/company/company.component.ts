@@ -4,6 +4,7 @@ import { NewComComponent } from './components/new-com/new-com.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatSort } from '@angular/material/sort';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -18,14 +19,18 @@ export class CompanyComponent implements AfterViewInit{
   displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  @ViewChild(MatSort) sort!: MatSort;  // <-- ViewChild for MatSort
+  
   constructor(public dialog: MatDialog) {}
-
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
+    // Attach paginator and sorter to the data source
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;  // <-- Attach the sort to the dataSource
   }
 
+  // Select All logic for checkboxes
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
@@ -35,18 +40,25 @@ export class CompanyComponent implements AfterViewInit{
   toggleAllRows() {
     if (this.isAllSelected()) {
       this.selection.clear();
-      return;
+    } else {
+      this.selection.select(...this.dataSource.data);
     }
-    this.selection.select(...this.dataSource.data);
   }
 
   checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return row
+      ? `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position}`
+      : `${this.isAllSelected() ? 'deselect' : 'select'} all`;
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
   createCom() {
     this.dialog.open(NewComComponent);
   }
