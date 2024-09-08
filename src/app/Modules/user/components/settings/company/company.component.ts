@@ -128,18 +128,23 @@ export class CompanyComponent implements AfterViewInit {
   }
 
   saveAsExcelFile(buffer: any, fileName: string): void {
-    import("file-saver").then(FileSaver => {
-      let EXCEL_TYPE =
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-      const data: Blob = new Blob([buffer], {
-        type: EXCEL_TYPE
-      });
-      FileSaver.saveAs(
-        data,
-        fileName + "_export_" + new Date().toDateString() + "-" + new Date().toLocaleTimeString()
-      );
-    });
-  }
+    const EXCEL_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+
+    const date = new Date();
+    const formattedDate = date.toISOString().slice(0, 10);  // Format as YYYY-MM-DD
+    const formattedTime = date.toLocaleTimeString().replace(/:/g, "-"); // Replace colons with hyphens for time
+    const fullFileName = `${fileName}_export_${formattedDate}_${formattedTime}.xlsx`;
+
+    const url = window.URL.createObjectURL(data);
+    
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fullFileName;
+    link.click();
+
+    window.URL.revokeObjectURL(url); // Clean up the URL object after download
+}
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
