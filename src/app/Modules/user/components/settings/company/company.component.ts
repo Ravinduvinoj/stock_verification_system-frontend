@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { saveAs } from 'file-saver';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -128,17 +129,9 @@ export class CompanyComponent implements AfterViewInit {
   }
 
   saveAsExcelFile(buffer: any, fileName: string): void {
-    import("file-saver").then(FileSaver => {
-      let EXCEL_TYPE =
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-      const data: Blob = new Blob([buffer], {
-        type: EXCEL_TYPE
-      });
-      FileSaver.saveAs(
-        data,
-        fileName + "_export_" + new Date().toDateString() + "-" + new Date().toLocaleTimeString()
-      );
-    });
+    const EXCEL_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    saveAs(data, fileName + "_export_" + new Date().toDateString() + "-" + new Date().toLocaleTimeString() + ".xlsx");
   }
 }
 
