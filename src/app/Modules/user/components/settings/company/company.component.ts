@@ -131,7 +131,9 @@ export class CompanyComponent implements AfterViewInit {
   saveAsExcelFile(buffer: any, fileName: string): void {
     const EXCEL_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
     const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
-    saveAs(data, fileName + "_export_" + new Date().toDateString() + "-" + new Date().toLocaleTimeString() + ".xlsx");
+    // saveAs(data, fileName + "_export_" + new Date().toDateString() + "-" + new Date().toLocaleTimeString() + ".xlsx");
+    const url= window.URL.createObjectURL(data);
+  window.open(url);
   }
 }
 
