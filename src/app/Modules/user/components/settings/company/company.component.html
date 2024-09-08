@@ -2,7 +2,7 @@
     <p class="2xl:text-4xl  text-xl sm:text-lg md:text-3xl  font-semibold text-nowrap">Company</p>
 </div>
 
-<div  class="2xl:w-[100%] md:w-[100%] md:mt-9 md:ml-[11%] 2xl:ml-[-32px]">
+<div class="2xl:w-[100%] md:w-[100%] md:mt-9 md:ml-[11%] 2xl:ml-[-32px]">
     <nav class="px-2 mb-10 ">
         <div class="container mx-auto flex flex-wrap items-center 2xl:justify-between gap-8">
             <div class="flex md:order-2 justify-end w-full md:w-auto">
@@ -24,7 +24,8 @@
                     </li>
                     <li>
                         <button
-                            class="bg-green-700 text-xs 2xl:text-sm md:text-sm p-2 text-white block rounded-lg ml-[0px] 2xl:ml-0 md:ml-0 md:w-[124px] md:h-[43px]  w-[110px] h-[43px] 2xl:h-[43px] 2xl:w-[138px] hover:bg-green-500 transition duration-700 ease-in-out">Export
+                            class="bg-green-700 text-xs 2xl:text-sm md:text-sm p-2 text-white block rounded-lg ml-[0px] 2xl:ml-0 md:ml-0 md:w-[124px] md:h-[43px]  w-[110px] h-[43px] 2xl:h-[43px] 2xl:w-[138px] hover:bg-green-500 transition duration-700 ease-in-out"
+                            (click)="exportAllExcel()">Export
                             Excel</button>
                     </li>
                     <li>
@@ -37,85 +38,84 @@
     </nav>
 </div>
 <div class="mat-elevation-z8 overflow-x-auto w-[98%] 2xl:ml-5 md:ml-3 ml-1 mt-[-20px]">
-    <mat-paginator class="mt-4" [pageSizeOptions]="[15, 20, 30,50,100]" showFirstLastButtons
-    aria-label="Select page of periodic elements"></mat-paginator>
+    <!-- Context Menu -->
+    <mat-menu #rightClickMenu="matMenu" class="justify-between">
+        
+        <button mat-menu-item (click)="deselectElement(selectedRow)">Deselect</button>
+        <button mat-menu-item (click)="exportselectedRows()">Export Rows</button>
+    </mat-menu>
+    <!-- MatMenuTrigger (Hidden) -->
+    <button mat-icon-button [matMenuTriggerFor]="rightClickMenu" #rightClickMenuTrigger="matMenuTrigger"
+        style="display:inline-block;"></button>
+    <mat-paginator class="mt-4" [pageSizeOptions]="[15, 20, 30,50,100,500]" showFirstLastButtons></mat-paginator>
     <div class=" overflow-auto max-h-[690px]">
-    
+
         <div class="table-auto w-full mt-6">
             <table mat-table [dataSource]="dataSource" matSort class="min-w-full border-collapse">
 
                 <!-- Checkbox Column -->
                 <ng-container matColumnDef="select">
-                  <th mat-header-cell *matHeaderCellDef class="2xl:w-7"> 
-                    <mat-checkbox (change)="$event ? toggleAllRows() : null"
-                                  [checked]="selection.hasValue() && isAllSelected()"
-                                  [indeterminate]="selection.hasValue() && !isAllSelected()" 
-                                  [aria-label]="checkboxLabel()">Select All
-                    </mat-checkbox>
-                  </th>
-                  <td mat-cell *matCellDef="let row" (contextmenu)="onRightClick($event, row, rightClickMenuTrigger)">
-                    <mat-checkbox (click)="$event.stopPropagation()"
-                                  (change)="$event ? selection.toggle(row) : null" 
-                                  [checked]="selection.isSelected(row)"
-                                  [aria-label]="checkboxLabel(row)">
-                    </mat-checkbox>
-                  </td>
+                    <th mat-header-cell *matHeaderCellDef class="2xl:w-7">
+                        <mat-checkbox (change)="$event ? toggleAllRows() : null "
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()"
+                            [aria-label]="checkboxLabel()">Select All
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row" (contextmenu)="onRightClick($event, row, rightClickMenuTrigger)">
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                            [aria-label]="checkboxLabel(row)">
+                        </mat-checkbox>
+                    </td>
                 </ng-container>
-              
+
                 <!-- Position Column -->
                 <ng-container matColumnDef="position">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>  
-                  <td mat-cell *matCellDef="let element" 
-                      (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)"> 
-                    {{ element.position }}
-                  </td>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
+                    <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
+                        {{ element.position }}
+                    </td>
                 </ng-container>
-              
+
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th> 
-                  <td mat-cell *matCellDef="let element" 
-                      (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
-                    {{ element.name }}
-                  </td>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                    <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
+                        {{ element.name }}
+                    </td>
                 </ng-container>
-              
+
                 <!-- Weight Column -->
                 <ng-container matColumnDef="weight">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Weight</th> 
-                  <td mat-cell *matCellDef="let element" 
-                      (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
-                    {{ element.weight }}
-                  </td>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Weight</th>
+                    <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
+                        {{ element.weight }}
+                    </td>
                 </ng-container>
-              
+
                 <!-- Symbol Column -->
                 <ng-container matColumnDef="symbol">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Symbol</th> 
-                  <td mat-cell *matCellDef="let element" 
-                      (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
-                    {{ element.symbol }}
-                  </td>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Symbol</th>
+                    <td mat-cell *matCellDef="let element"
+                        (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
+                        {{ element.symbol }}
+                    </td>
                 </ng-container>
-              
+
                 <!-- Header Row -->
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              
+
                 <!-- Data Rows -->
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 <tr class="mat-row" *matNoDataRow>
                     <td class="mat-cell text-center" colspan="4">No data matching the filter "{{input.value}}"</td>
                 </tr>
-              </table>
+            </table>
+
         </div>
     </div>
 </div>
-
-<!-- Context Menu -->
-<mat-menu #rightClickMenu="matMenu" class="justify-center">
-  <button mat-menu-item (click)="exportElement(selectedRow)">Export</button>
-  <button mat-menu-item (click)="deselectElement(selectedRow)">Deselect</button>
-</mat-menu>
-
-<!-- MatMenuTrigger (Hidden) -->
-<button mat-icon-button [matMenuTriggerFor]="rightClickMenu" #rightClickMenuTrigger="matMenuTrigger" style="display:inline-table;"></button>
