@@ -41,20 +41,19 @@
     aria-label="Select page of periodic elements"></mat-paginator>
     <div class=" overflow-auto max-h-[690px]">
     
-
         <div class="table-auto w-full mt-6">
             <table mat-table [dataSource]="dataSource" matSort class="min-w-full border-collapse">
 
                 <!-- Checkbox Column -->
                 <ng-container matColumnDef="select">
-                  <th mat-header-cell *matHeaderCellDef> 
+                  <th mat-header-cell *matHeaderCellDef class="2xl:w-7"> 
                     <mat-checkbox (change)="$event ? toggleAllRows() : null"
                                   [checked]="selection.hasValue() && isAllSelected()"
                                   [indeterminate]="selection.hasValue() && !isAllSelected()" 
                                   [aria-label]="checkboxLabel()">Select All
                     </mat-checkbox>
                   </th>
-                  <td mat-cell *matCellDef="let row">
+                  <td mat-cell *matCellDef="let row" (contextmenu)="onRightClick($event, row, rightClickMenuTrigger)">
                     <mat-checkbox (click)="$event.stopPropagation()"
                                   (change)="$event ? selection.toggle(row) : null" 
                                   [checked]="selection.isSelected(row)"
@@ -65,26 +64,38 @@
               
                 <!-- Position Column -->
                 <ng-container matColumnDef="position">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>  <!-- Sorting added here -->
-                  <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>  
+                  <td mat-cell *matCellDef="let element" 
+                      (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)"> 
+                    {{ element.position }}
+                  </td>
                 </ng-container>
               
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th> <!-- Sorting added here -->
-                  <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th> 
+                  <td mat-cell *matCellDef="let element" 
+                      (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
+                    {{ element.name }}
+                  </td>
                 </ng-container>
               
                 <!-- Weight Column -->
                 <ng-container matColumnDef="weight">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Weight</th> <!-- Sorting added here -->
-                  <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Weight</th> 
+                  <td mat-cell *matCellDef="let element" 
+                      (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
+                    {{ element.weight }}
+                  </td>
                 </ng-container>
               
                 <!-- Symbol Column -->
                 <ng-container matColumnDef="symbol">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Symbol</th> <!-- Sorting added here -->
-                  <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Symbol</th> 
+                  <td mat-cell *matCellDef="let element" 
+                      (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
+                    {{ element.symbol }}
+                  </td>
                 </ng-container>
               
                 <!-- Header Row -->
@@ -94,8 +105,17 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 <tr class="mat-row" *matNoDataRow>
                     <td class="mat-cell text-center" colspan="4">No data matching the filter "{{input.value}}"</td>
-                  </tr>
+                </tr>
               </table>
         </div>
     </div>
 </div>
+
+<!-- Context Menu -->
+<mat-menu #rightClickMenu="matMenu" class="justify-center">
+  <button mat-menu-item (click)="exportElement(selectedRow)">Export</button>
+  <button mat-menu-item (click)="deselectElement(selectedRow)">Deselect</button>
+</mat-menu>
+
+<!-- MatMenuTrigger (Hidden) -->
+<button mat-icon-button [matMenuTriggerFor]="rightClickMenu" #rightClickMenuTrigger="matMenuTrigger" style="display:inline-table;"></button>
