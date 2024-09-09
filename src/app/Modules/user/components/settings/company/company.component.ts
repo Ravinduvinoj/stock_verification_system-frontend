@@ -21,6 +21,7 @@ export class CompanyComponent implements AfterViewInit {
   displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
+  selectedRow: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;  // <-- ViewChild for MatSort
@@ -46,6 +47,7 @@ export class CompanyComponent implements AfterViewInit {
       this.selection.select(...this.dataSource.data);
     }
   }
+
   getCurrentPageData(): any[] {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     const endIndex = startIndex + this.paginator.pageSize;
@@ -66,10 +68,11 @@ export class CompanyComponent implements AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
   createCom() {
     this.dialog.open(NewComComponent);
   }
-  selectedRow: any;
+
 
   onRightClick(event: MouseEvent, row: any, menuTrigger: MatMenuTrigger) {
     if (this.selection.isSelected(row)) {
@@ -81,7 +84,7 @@ export class CompanyComponent implements AfterViewInit {
     }
 
   }
-  exportselectedRows(){
+  exportselectedRows() {
     const currentPageData = this.getCurrentPageData();
     const selectedRows = this.selection.selected.filter(row =>
       currentPageData.some(pageRow => pageRow.position === row.position)
@@ -94,7 +97,7 @@ export class CompanyComponent implements AfterViewInit {
 
     import("xlsx").then(xlsx => {
       const modifiedData = selectedRows.map(row => ({
-        ...row, 
+        ...row,
         Values: '' // Modify or add any additional properties here if needed
       }));
 
@@ -110,6 +113,9 @@ export class CompanyComponent implements AfterViewInit {
     // Implement deselect logic here
     console.log("Deselecting row: ", row);
     this.selection.deselect(row);
+  }
+  deselectAllElement() {
+    this.selection.clear();
   }
 
   exportAllExcel() {
@@ -130,7 +136,7 @@ export class CompanyComponent implements AfterViewInit {
   saveAsExcelFile(buffer: any, fileName: string): void {
     const EXCEL_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
     const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
-    FileSaver.saveAs(data,  fileName + "_export_" + new Date().toDateString() + "-" + new Date().toLocaleTimeString() + ".xlsx");
+    FileSaver.saveAs(data, fileName + "_export_" + new Date().toDateString() + "-" + new Date().toLocaleTimeString() + ".xlsx");
 
   }
 }

@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatMenuTrigger } from '@angular/material/menu';
+import FileSaver from 'file-saver';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -17,6 +18,7 @@ export class CategoryComponent implements AfterViewInit{
   displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
+  selectedRow: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;  // <-- ViewChild for MatSort
@@ -27,9 +29,7 @@ export class CategoryComponent implements AfterViewInit{
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;  // <-- Attach the sort to the dataSource
   }
-createCategory() {
-this.dialog.open(NewCategoryComponent)
-}
+
   // Select All logic for checkboxes
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -43,6 +43,12 @@ this.dialog.open(NewCategoryComponent)
     } else {
       this.selection.select(...this.dataSource.data);
     }
+  }
+
+  getCurrentPageData(): any[] {
+    const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+    const endIndex = startIndex + this.paginator.pageSize;
+    return this.dataSource.filteredData.slice(startIndex, endIndex);
   }
 
   checkboxLabel(row?: PeriodicElement): string {
@@ -59,19 +65,45 @@ this.dialog.open(NewCategoryComponent)
       this.dataSource.paginator.firstPage();
     }
   }
-  selectedRow: any;
 
-  onRightClick(event: MouseEvent, row: any, menuTrigger: MatMenuTrigger) {
-    event.preventDefault(); // Prevent the default browser right-click menu
-    this.selectedRow = row;
-
-    // Open the context menu at the cursor's position
-    menuTrigger.openMenu();
+  createCategory() {
+    this.dialog.open(NewCategoryComponent);
   }
 
-  exportElement(row: any) {
-    // Implement export logic here
-    console.log("Exporting row: ", row);
+
+  onRightClick(event: MouseEvent, row: any, menuTrigger: MatMenuTrigger) {
+    if (this.selection.isSelected(row)) {
+      event.preventDefault(); // Prevent the default browser right-click menu
+      this.selectedRow = row;
+
+      // Open the context menu at the cursor's position
+      menuTrigger.openMenu();
+    }
+
+  }
+  exportselectedRows() {
+    const currentPageData = this.getCurrentPageData();
+    const selectedRows = this.selection.selected.filter(row =>
+      currentPageData.some(pageRow => pageRow.position === row.position)
+    );
+
+    if (selectedRows.length === 0) {
+      console.log("No rows selected on the current page for export.");
+      return;
+    }
+
+    import("xlsx").then(xlsx => {
+      const modifiedData = selectedRows.map(row => ({
+        ...row,
+        Values: '' // Modify or add any additional properties here if needed
+      }));
+
+      const worksheet = xlsx.utils.json_to_sheet(modifiedData);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+      this.saveAsExcelFile(excelBuffer, "selected_rows_current_page");
+    });
   }
 
   deselectElement(row: any) {
@@ -79,7 +111,33 @@ this.dialog.open(NewCategoryComponent)
     console.log("Deselecting row: ", row);
     this.selection.deselect(row);
   }
+  deselectAllElement() {
+    this.selection.clear();
+  }
+
+  exportAllExcel() {
+    import("xlsx").then(xlsx => {
+      const currentPageData = this.getCurrentPageData();
+      const modifiedData = currentPageData.map(data => ({
+        ...data,
+        Values: ''
+      }));
+
+      const worksheet = xlsx.utils.json_to_sheet(modifiedData);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+      this.saveAsExcelFile(excelBuffer, "current_page_data");
+    });
+  }
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    const EXCEL_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    FileSaver.saveAs(data, fileName + "_export_" + new Date().toDateString() + "-" + new Date().toLocaleTimeString() + ".xlsx");
+
+  }
 }
+
 
 
 const ELEMENT_DATA: PeriodicElement[] = [
