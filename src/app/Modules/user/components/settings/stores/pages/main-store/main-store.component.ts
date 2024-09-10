@@ -102,15 +102,14 @@ export class MainStoreComponent {
         const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
         const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
   
-        this.saveAsExcelFile(excelBuffer, "selected_rows_current_page");
+        this.saveAsExcelFile(excelBuffer, "selected_rows_");
       });
     }
   
     deselectElement(row: any) {
-      // Implement deselect logic here
-      console.log("Deselecting row: ", row);
       this.selection.deselect(row);
     }
+
     deselectAllElement() {
       this.selection.clear();
     }
