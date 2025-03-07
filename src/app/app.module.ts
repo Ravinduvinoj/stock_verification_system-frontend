@@ -20,7 +20,6 @@ import { MainStoreComponent } from './Modules/user/components/settings/stores/pa
 import { SubStoreComponent } from './Modules/user/components/settings/stores/pages/sub-store/sub-store.component';
 import { IslandComponent } from './Modules/user/components/settings/stores/pages/island/island.component';
 import { NewComComponent } from './Modules/user/components/settings/company/components/new-com/new-com.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NewCategoryComponent } from './Modules/user/components/settings/category/components/new-category/new-category.component';
@@ -30,6 +29,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
 import {MatMenuModule} from '@angular/material/menu';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
