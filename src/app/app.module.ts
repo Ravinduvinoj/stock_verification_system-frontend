@@ -30,6 +30,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
 import {MatMenuModule} from '@angular/material/menu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +66,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatPaginatorModule,
     MatCheckboxModule,
     MatSortModule,
-    MatMenuModule
+    MatMenuModule,
+    HttpClientModule
 
   ],
   providers: [

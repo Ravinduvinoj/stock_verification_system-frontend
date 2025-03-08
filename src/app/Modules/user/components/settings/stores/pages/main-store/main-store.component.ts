@@ -1,13 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NewMainStoreComponent } from './components/new-main-store/new-main-store.component';
-import { PeriodicElement } from '../../../company/company.component';
 import FileSaver from 'file-saver';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
+
+export interface PeriodicElement {
+  position: number;
+  name: string;
+  weight: number;
+  symbol: string;
+}
 
 @Component({
   selector: 'app-main-store',
