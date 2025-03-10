@@ -19,6 +19,9 @@ export interface company {
   styleUrl: './company.component.css',
 })
 export class CompanyComponent implements AfterViewInit, OnInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort; // <-- ViewChild for MatSort
+
   displayedColumns: string[] = [
     'select',
     'id', // This should match the 'id' field in your data
@@ -30,12 +33,11 @@ export class CompanyComponent implements AfterViewInit, OnInit {
   dataSource = new MatTableDataSource<company>(this.ELEMENT_DATA);
   selection = new SelectionModel<company>(true, []);
   selectedRow: any;
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort; // <-- ViewChild for MatSort
+  isLoaded: boolean = false;
 
   constructor(public dialog: MatDialog, private _apim: ApimService) {}
   ngOnInit(): void {
+    this.isLoaded = false;
     this.getCompanies();
   }
   ngAfterViewInit() {
@@ -170,9 +172,17 @@ export class CompanyComponent implements AfterViewInit, OnInit {
   }
 
   getCompanies() {
-    this._apim.getCompanies().subscribe((response) => {
-      console.log(response);
-      this.dataSource.data = response;
-    });
+    this.isLoaded = false;
+    this._apim.getCompanies().subscribe(
+      (response) => {
+        console.log(response);
+        this.dataSource.data = response;
+        this.isLoaded = true;
+      },
+      (error) => {
+        console.log(error);
+        this.isLoaded = true;
+      }
+    );
   }
 }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NewComComponent } from '../../../../../company/components/new-com/new-com.component';
+import { MainStore } from '../../../../../../../../models/mainstoreModel';
+import { ApimService } from '../../../../../../../../services/apim.service';
 
 @Component({
   selector: 'app-new-main-store',
@@ -13,7 +15,8 @@ export class NewMainStoreComponent implements OnInit{
 
   constructor(
     private _fb: FormBuilder,
-    private _dialogRef: MatDialogRef<NewComComponent>,
+    private _dialogRef: MatDialogRef<NewMainStoreComponent>,
+    private _apim: ApimService
   ) {}
 
   ngOnInit(): void {
@@ -25,11 +28,19 @@ export class NewMainStoreComponent implements OnInit{
   }
 
   onAddMain() {
-    if (this.form.valid) {
-
-      console.log(this.form.value);
-    } else {
-      console.log("Form is invalid");
-    }
+     if (this.form.valid) {
+              let data = this.form.value;
+              let Obj: MainStore = {
+                mainStoreCode: data.MainCode,
+                mainStoreName: data.MainName,
+              };
+        
+              this._apim.createMainStore(Obj).subscribe((response) => {
+                console.log(response);
+                this._dialogRef.close();
+              });
+            } else {
+              console.log('Form is invalid');
+            }
   }
 }

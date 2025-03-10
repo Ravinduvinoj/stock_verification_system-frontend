@@ -1,0 +1,78 @@
+<div class="max-w-[150%] w-[312px] md:w-[380px] 2xl:w-[380px]">
+  <div class="bg-green-200 p-4 rounded-lg shadow-md">
+    <h1 class="text-center text-3xl font-semibold text-green-700 mb-2">
+      New Sub Store
+    </h1>
+  </div>
+
+  <form
+    [formGroup]="form"
+    (ngSubmit)="onAddSub()"
+    class="min-w-[100%] mx-auto p-8 bg-white rounded-lg shadow-lg"
+  >
+  <div class="mt-[-10px] ml-[-10px] mb-2">
+    <mat-form-field class="w-[100%]">
+      <mat-label>Main store</mat-label>
+      <mat-select
+        formControlName="selectedMainStore"
+        [(value)]="selectedMainStore"
+        (selectionChange)="onMainStoreSelectionChange($event)"
+        required
+      >
+        <mat-option *ngFor="let main of mainStores" [value]="main?.id">
+          {{ main?.mainStoreCode }} - {{ main?.mainStoreName }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('selectedMainStore')?.hasError('required')">
+        You must make a selection
+      </mat-error>
+    </mat-form-field>
+  </div>
+  
+    <div class="mt-[-10px] ml-[-10px] mb-2">
+      <mat-form-field class="w-[100%]" hintLabel="Max 2 Number">
+        <mat-label>Enter Sub Store Code</mat-label>
+        <input
+          matInput
+          #input
+          maxlength="10"
+          formControlName="SubCode"
+          placeholder="Sub Store Code"
+          class="w-[110%] p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400"
+        />
+        <mat-hint align="end">{{ input.value.length }}/2</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="mb-2 ml-[-11px]">
+      <mat-form-field class="w-[100%]">
+        <mat-label>Enter Sub Store Name</mat-label>
+        <input
+          matInput
+          #input
+          placeholder="Sub Store Name"
+          formControlName="SubName"
+          class="w-[110%] p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="flex justify-between items-center mt-2">
+      <button
+        mat-raised-button
+        type="button"
+        [mat-dialog-close]="false"
+        class="bg-green-400 text-white py-2 px-6 rounded-md shadow hover:bg-green-600 transition duration-300"
+      >
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="bg-green-500 text-white py-2 px-6 rounded-md shadow hover:bg-green-700 transition duration-300"
+      >
+        Create
+      </button>
+    </div>
+  </form>
+</div>

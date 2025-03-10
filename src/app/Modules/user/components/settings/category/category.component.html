@@ -70,38 +70,29 @@
                 </ng-container>
 
                 <!-- Position Column -->
-                <ng-container matColumnDef="position">
+                <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
                     <td mat-cell *matCellDef="let element"
                         (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
-                        {{ element.position }}
+                        {{ element.id }}
                     </td>
                 </ng-container>
 
                 <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                <ng-container matColumnDef="categoryCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Category code</th>
                     <td mat-cell *matCellDef="let element"
                         (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
-                        {{ element.name }}
+                        {{ element.categoryCode }}
                     </td>
                 </ng-container>
 
                 <!-- Weight Column -->
-                <ng-container matColumnDef="weight">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Weight</th>
+                <ng-container matColumnDef="categoryName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Category name</th>
                     <td mat-cell *matCellDef="let element"
                         (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
-                        {{ element.weight }}
-                    </td>
-                </ng-container>
-
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="symbol">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Symbol</th>
-                    <td mat-cell *matCellDef="let element"
-                        (contextmenu)="onRightClick($event, element, rightClickMenuTrigger)">
-                        {{ element.symbol }}
+                        {{ element.categoryName }}
                     </td>
                 </ng-container>
 

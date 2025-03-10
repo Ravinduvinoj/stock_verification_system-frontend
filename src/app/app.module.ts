@@ -31,6 +31,9 @@ import { MatSortModule } from '@angular/material/sort';
 import {MatMenuModule} from '@angular/material/menu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NewSubStoreComponent } from './Modules/user/components/settings/stores/pages/sub-store/components/new-sub-store/new-sub-store.component';
+import { MatSelectModule } from '@angular/material/select';
+import { NewIslandComponent } from './Modules/user/components/settings/stores/pages/island/components/new-island/new-island.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +54,8 @@ import { HttpClientModule } from '@angular/common/http';
     NewComComponent,
     NewCategoryComponent,
     NewMainStoreComponent,
+    NewSubStoreComponent,
+    NewIslandComponent,
 
   ],
   imports: [
@@ -67,7 +72,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatCheckboxModule,
     MatSortModule,
     MatMenuModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSelectModule,
 
   ],
   providers: [
