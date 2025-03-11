@@ -159,27 +159,27 @@
 
         <!-- Header Row -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-
+        <tr class="mat-row" *ngIf="!isLoaded">
+            <td colspan="4">
+              <div
+                style="
+                  text-align: center;
+                  width: 50%;
+                  padding: 20px;
+                  margin-left: 50%;
+                "
+              >
+                <img
+                  src="../../../../../../assets/loading/ProcessingCircle.gif"
+                  alt="Loading..."
+                  style="width: 50px; text-align: center"
+                />
+              </div>
+            </td>
+          </tr>
         <!-- Data Rows -->
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        <tr class="mat-row" *ngIf="!isLoaded">
-          <td colspan="4">
-            <div
-              style="
-                text-align: center;
-                width: 50%;
-                padding: 20px;
-                margin-left: 50%;
-              "
-            >
-              <img
-                src="../../../../../../assets/loading/ProcessingCircle.gif"
-                alt="Loading..."
-                style="width: 50px; text-align: center"
-              />
-            </div>
-          </td>
-        </tr>
+        
         <tr class="mat-row" *matNoDataRow>
             <td colspan="4" class="mat-cell text-center">
                 No data matching the filter "{{ input.value }}"

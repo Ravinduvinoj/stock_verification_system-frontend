@@ -34,6 +34,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { NewSubStoreComponent } from './Modules/user/components/settings/stores/pages/sub-store/components/new-sub-store/new-sub-store.component';
 import { MatSelectModule } from '@angular/material/select';
 import { NewIslandComponent } from './Modules/user/components/settings/stores/pages/island/components/new-island/new-island.component';
+import { NewSidebarComponent } from './pages/components/new-sidebar/new-sidebar.component';
+import { SidebarMenuComponent } from './pages/components/new-sidebar/sidebar-menu/sidebar-menu.component';
+import { SidebarSubmenuComponent } from './pages/components/new-sidebar/sidebar-submenu/sidebar-submenu.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,6 +59,9 @@ import { NewIslandComponent } from './Modules/user/components/settings/stores/pa
     NewMainStoreComponent,
     NewSubStoreComponent,
     NewIslandComponent,
+    NewSidebarComponent,
+    SidebarMenuComponent,
+    SidebarSubmenuComponent
 
   ],
   imports: [

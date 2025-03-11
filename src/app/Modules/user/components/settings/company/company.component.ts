@@ -36,6 +36,7 @@ export class CompanyComponent implements AfterViewInit, OnInit {
   isLoaded: boolean = false;
 
   constructor(public dialog: MatDialog, private _apim: ApimService) {}
+
   ngOnInit(): void {
     this.isLoaded = false;
     this.getCompanies();
@@ -109,7 +110,6 @@ export class CompanyComponent implements AfterViewInit, OnInit {
     );
 
     if (selectedRows.length === 0) {
-      console.log('No rows selected on the current page for export.');
       return;
     }
 
@@ -156,6 +156,7 @@ export class CompanyComponent implements AfterViewInit, OnInit {
       this.saveAsExcelFile(excelBuffer, 'current_page_data');
     });
   }
+
   saveAsExcelFile(buffer: any, fileName: string): void {
     const EXCEL_TYPE =
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -173,15 +174,16 @@ export class CompanyComponent implements AfterViewInit, OnInit {
 
   getCompanies() {
     this.isLoaded = false;
+    this.dataSource.data = [];
+
     this._apim.getCompanies().subscribe(
       (response) => {
-        console.log(response);
-        this.dataSource.data = response;
         this.isLoaded = true;
+        this.dataSource.data = response;
       },
       (error) => {
         console.log(error);
-        this.isLoaded = true;
+        // this.isLoaded = true;
       }
     );
   }
