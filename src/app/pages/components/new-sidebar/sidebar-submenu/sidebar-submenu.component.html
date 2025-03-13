@@ -26,8 +26,8 @@
             [routerLink]="sub.route"
             routerLinkActive="text-primary active3"
             [routerLinkActiveOptions]="{ exact: true }"
-            class="inline-block w-full px-4 py-2 text-sm font-medium"
-          >
+            class="inline-flex  w-full px-4 py-2 text-sm font-medium"
+            ><img [src]="sub.icon" class="h-[20px] w-[20px] mr-2" />
             {{ sub.label }}
           </a>
         </ng-template>
@@ -35,12 +35,13 @@
         <!-- Child Menu -->
         <ng-template #childMenu let-sub="sub">
           <a
-            class="inline-block w-full cursor-pointer px-4 py-2 text-sm font-medium"
+            class="inline-flex w-full cursor-pointer px-4 py-2 text-sm font-medium"
           >
+          <img [src]="sub.icon" class="h-[20px] w-[20px] mr-2" />
             {{ sub.label }}
           </a>
 
-          <button
+          <button *ngIf="sub.children"
             [ngClass]="{
               hidden: !menuService.showSideBar,
               'rotate-90': sub.expanded
@@ -49,7 +50,7 @@
           >
             <img
               src="../../../../../assets/icons/heroicons/solid/chevron-right.svg"
-              class="h-5 w-5"
+              class="h-6 w-6"
               alt=""
             />
           </button>

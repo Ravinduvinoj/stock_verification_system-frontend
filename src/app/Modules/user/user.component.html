@@ -1,16 +1,21 @@
 <div class="flex h-screen w-full overflow-hidden">
   <!-- Sidebar -->
-  <sub>
-    <app-new-sidebar></app-new-sidebar>
-  </sub>
 
-  <div
-    style="background-color: #f1f5f9"
-    id="main-content"
-    class="scrollbar-thumb-rounded scrollbar-track-rounded grow overflow-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted"
-  >
-    <div class="mx-auto px-4 py-4 sm:px-8 lg:container">
-      <router-outlet></router-outlet>
+  <app-new-sidebar></app-new-sidebar>
+  <div class="flex grow flex-col content-start overflow-hidden bg-card">
+    <!-- Header -->
+    <app-navbar></app-navbar>
+    
+    <div
+      style="background-color: #f1f5f9"
+      id="main-content"
+      class="scrollbar-thumb-rounded scrollbar-track-rounded grow overflow-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted"
+    >
+    <!-- <p>sdmmfd</p> -->
+      <!-- <div class="mx-auto px-4 py-2 sm:px-8 lg:container"> -->
+        <!-- <p>sdfd</p> -->
+        <router-outlet></router-outlet>
+      <!-- </div> -->
     </div>
   </div>
 </div>

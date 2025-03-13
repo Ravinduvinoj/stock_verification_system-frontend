@@ -4,7 +4,7 @@ export class Menu {
   public static pages: MenuItem[] = [
     {
       group: 'Base',
-      separator: false,
+      separator: true,
       items: [
         {
           icon: 'assets/icons/heroicons/outline/chart-pie.svg',
@@ -14,13 +14,13 @@ export class Menu {
         },
         {
           icon: 'assets/icons/heroicons/outline/adjustment.svg',
-          label: 'stock-adjustemnt',
+          label: 'Stock-adjustemnt',
           route: '/user/stock-adjustemnt',
           permission: 'admin',
         },
         {
           icon: 'assets/icons/heroicons/outline/scan.svg',
-          label: 'manual-scan',
+          label: 'Manual-scan',
           route: '/user/manual-scan',
           permission: 'admin',
         },
@@ -29,15 +29,36 @@ export class Menu {
           label: 'Settings',
           route: '/user/settings',
           children: [
-            { label: 'company', route: '/user/settings/company' },
-            { label: 'category', route: '/user/settings/category' },
             {
-              label: 'stores',
+              icon: 'assets/icons/heroicons/outline/company.svg',
+              label: 'Company',
+              route: '/user/settings/company',
+            },
+            {
+              icon: 'assets/icons/heroicons/outline/category.svg',
+              label: 'Category',
+              route: '/user/settings/category',
+            },
+            {
+              icon: 'assets/icons/heroicons/outline/location.svg',
+              label: 'Location',
               route: 'settings/stores',
               children: [
-                { label: 'main-store', route: '/user/settings/stores/main-store' },
-                { label: 'sub-store', route: '/user/settings/stores/sub-store' },
-                { label: 'island', route: '/user/settings/stores/island' },
+                {
+                  icon: 'assets/icons/heroicons/outline/main-store.svg',
+                  label: 'Main store',
+                  route: '/user/settings/stores/main-store',
+                },
+                {
+                  icon: 'assets/icons/heroicons/outline/sub-store.svg',
+                  label: 'Sub store',
+                  route: '/user/settings/stores/sub-store',
+                },
+                {
+                  icon: 'assets/icons/heroicons/outline/rack.svg',
+                  label: 'Island',
+                  route: '/user/settings/stores/island',
+                },
               ],
             },
           ],
@@ -103,7 +124,7 @@ export class Menu {
     // },
     {
       group: 'Config',
-      separator: false,
+      separator: true,
       items: [
         {
           icon: 'assets/icons/heroicons/outline/cog.svg',

@@ -37,6 +37,11 @@ import { NewIslandComponent } from './Modules/user/components/settings/stores/pa
 import { NewSidebarComponent } from './pages/components/new-sidebar/new-sidebar.component';
 import { SidebarMenuComponent } from './pages/components/new-sidebar/sidebar-menu/sidebar-menu.component';
 import { SidebarSubmenuComponent } from './pages/components/new-sidebar/sidebar-submenu/sidebar-submenu.component';
+import { NavbarComponent } from './pages/components/navbar/navbar.component';
+import { NavbarMenuComponent } from './pages/components/navbar/navbar-menu/navbar-menu.component';
+import { NavbarMobileComponent } from './pages/components/navbar/navbar-mobile/navbar-mobile.component';
+import { NavbarMobileMenuComponent } from './pages/components/navbar/navbar-mobile/navbar-mobile-menu/navbar-mobile-menu.component';
+import { NavbarMobileSubmenuComponent } from './pages/components/navbar/navbar-mobile/navbar-mobile-submenu/navbar-mobile-submenu.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,7 +66,12 @@ import { SidebarSubmenuComponent } from './pages/components/new-sidebar/sidebar-
     NewIslandComponent,
     NewSidebarComponent,
     SidebarMenuComponent,
-    SidebarSubmenuComponent
+    SidebarSubmenuComponent,
+    NavbarComponent,
+    NavbarMenuComponent,
+    NavbarMobileComponent,
+    NavbarMobileMenuComponent,
+    NavbarMobileSubmenuComponent,
 
   ],
   imports: [
