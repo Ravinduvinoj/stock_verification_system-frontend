@@ -1,0 +1,134 @@
+<div *ngIf="isLoading" class="loading-container">
+  <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
+</div>
+<div class="max-w-[200%] w-[312px] md:w-[380px] 2xl:w-[900px] 2xl:h-[610px]">
+    <div class="bg-green-200 p-4 rounded-lg shadow-md">
+      <h1 class="text-center text-3xl font-semibold text-green-700 mb-2">
+        New Sub Store
+      </h1>
+    </div>
+  
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onAddItem()"
+      class="min-w-[100%] mx-auto p-8 bg-white rounded-lg shadow-lg"
+    >
+      <div class="mt-[-10px] ml-[-10px] mb-2">
+        <p>Select company</p>
+        <mat-form-field class="w-[30%]">
+            <mat-label>Company</mat-label>
+            <mat-select
+              [(value)]="selectedCompany"
+              (selectionChange)="onCompanySelectionChange($event)"
+              required
+            >
+              <mat-option *ngFor="let company of companies" [value]="company?.id">
+                {{ company?.companyCode }} - {{ company?.companyName }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('selectedMainStore')?.hasError('required')">
+              You must make a selection
+            </mat-error>
+          </mat-form-field>
+      </div>
+      <div class="mt-[-10px] ml-[-10px] mb-2">
+       <p>Select location</p>
+        <mat-form-field class="w-[30%]">
+          <mat-label>Main store</mat-label>
+          <mat-select
+            [(value)]="selectedMainStore"
+            (selectionChange)="onMainStoreSelectionChange($event)"
+            required
+          >
+            <mat-option *ngFor="let main of mainStores" [value]="main?.id">
+              {{ main?.mainStoreCode }} - {{ main?.mainStoreName }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('selectedMainStore')?.hasError('required')">
+            You must make a selection
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-[30%] 2xl:ml-4">
+          <mat-label>Sub store</mat-label>
+          <mat-select
+            [(value)]="selectedSubStore"
+            (selectionChange)="onSubStoreSelectionChange($event)"
+            required
+          >
+            <mat-option *ngFor="let sub of subStores" [value]="sub?.id">
+              {{ sub?.subStoreCode }} - {{ sub?.subStoreName }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('selectedMainStore')?.hasError('required')">
+            You must make a selection
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-[30%] 2xl:ml-4">
+            <mat-label>Island</mat-label>
+            <mat-select
+              [(value)]="selectedIsland"
+              (selectionChange)="onIslandsSelectionChange($event)"
+              required
+            >
+            <mat-option *ngFor="let islnd of islands" [value]="islnd?.id">
+              {{ islnd?.islandCode }} - {{ islnd?.islandName }}
+            </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('selectedMainStore')?.hasError('required')">
+              You must make a selection
+            </mat-error>
+          </mat-form-field>
+      </div>
+      <div class="mt-[-10px] ml-[-10px] mb-2">
+        <p>Select item category</p>
+        <mat-form-field class="w-[30%]">
+            <mat-label>Category</mat-label>
+            <mat-select
+              [(value)]="selectedCategory"
+              (selectionChange)="onCategorySelectionChange($event)"
+              required
+            >
+              <mat-option *ngFor="let cat of categories" [value]="cat?.id">
+                {{ cat?.categoryCode }} - {{ cat?.categoryName }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="form.get('selectedIslands')?.hasError('required')">
+              You must make a selection
+            </mat-error>
+          </mat-form-field>
+      </div>
+  
+      <div class="mb-2 ml-[-11px]">
+        <mat-form-field class="w-[100%]">
+          <mat-label>Enter item name</mat-label>
+          <input
+            matInput
+            #input
+            placeholder="Item Name"
+            formControlName="ItemName"
+            class="w-[110%] p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400"
+          />
+        </mat-form-field>
+      </div>
+  
+      <div class="flex justify-between items-center mt-6">
+        <button
+          mat-raised-button
+          type="button"
+          [mat-dialog-close]="false"
+          class="bg-green-400 text-white py-2 px-6 rounded-md shadow hover:bg-green-600 transition duration-300"
+        >
+          Cancel
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="bg-green-500 text-white py-2 px-6 rounded-md shadow hover:bg-green-700 transition duration-300"
+        >
+          Create
+        </button>
+      </div>
+    </form>
+  </div>
+  

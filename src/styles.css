@@ -7,3 +7,16 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.custom-snackbar {
+    color: green !important;  /* Change text color */
+    background-color:  white !important; /* Change background color */
+  }
+
+  .loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  

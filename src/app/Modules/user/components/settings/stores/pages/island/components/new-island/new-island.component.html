@@ -14,7 +14,6 @@
       <mat-form-field class="w-[50%]">
         <mat-label>Main store</mat-label>
         <mat-select
-          formControlName="selectedMainStore"
           [(value)]="selectedMainStore"
           (selectionChange)="onMainStoreSelectionChange($event)"
           required
@@ -30,7 +29,6 @@
       <mat-form-field class="w-[50%]">
         <mat-label>Sub store</mat-label>
         <mat-select
-          formControlName="selectedSubStore"
           [(value)]="selectedSubStore"
           (selectionChange)="onSubStoreSelectionChange($event)"
           required

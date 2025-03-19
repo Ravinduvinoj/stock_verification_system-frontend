@@ -8,6 +8,8 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import FileSaver from 'file-saver';
 import { ApimService } from '../../../../services/apim.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar } from '@angular/material/snack-bar';
 export interface company {
   id: string;
   companyCode: number;
@@ -33,14 +35,19 @@ export class CompanyComponent implements AfterViewInit, OnInit {
   dataSource = new MatTableDataSource<company>(this.ELEMENT_DATA);
   selection = new SelectionModel<company>(true, []);
   selectedRow: any;
-  isLoaded: boolean = false;
+  isLoading: boolean = false;
 
-  constructor(public dialog: MatDialog, private _apim: ApimService) {}
+  constructor(
+    public dialog: MatDialog,
+    private _apim: ApimService,
+    private _toastr: ToastrService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
-    this.isLoaded = false;
     this.getCompanies();
   }
+
   ngAfterViewInit() {
     // Attach paginator and sorter to the data source
     this.dataSource.paginator = this.paginator;
@@ -173,17 +180,35 @@ export class CompanyComponent implements AfterViewInit, OnInit {
   }
 
   getCompanies() {
-    this.isLoaded = false;
+    this.isLoading = true;
     this.dataSource.data = [];
 
     this._apim.getCompanies().subscribe(
       (response) => {
-        this.isLoaded = true;
-        this.dataSource.data = response;
+        setTimeout(() => {
+          this.isLoading = false; // Hide loader when data loads
+          this.dataSource.data = response;
+          this._snackBar.open('Company loaded successfully', 'Close', {
+            duration: 3000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'center',
+            panelClass: ['mat-accent'],
+          });
+        }, 1000);
+
+        // this._toastr.success('category Created', 'job category creation successfully');
+
+        
       },
       (error) => {
         console.log(error);
-        // this.isLoaded = true;
+        this._snackBar.open(error.error.message, 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+        });
+        this._toastr.error('error', error);
+        // this.isLoaded = true; // Ensure loader disappears even if there's an error
       }
     );
   }

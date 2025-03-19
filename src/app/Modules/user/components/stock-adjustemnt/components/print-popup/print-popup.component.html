@@ -1,0 +1,10 @@
+<div class="bg-red-50 p-6 rounded-lg shadow-lg max-w-md mx-auto">
+    <h2 class="text-orange-600 text-lg font-semibold mb-4">Print Confirmation</h2>
+    <p class="text-gray-700 mb-6">Are you sure you want to print?</p>
+    <div class="flex justify-end space-x-3">
+        <button class="px-4 py-2 rounded-md bg-gray-500 text-white hover:bg-gray-600 transition"
+            (click)="onNoClick()">No</button>
+        <button class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 transition"
+            (click)="onYesClick()">Print</button>
+    </div>
+</div>

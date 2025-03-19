@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { MatDialogModule } from '@angular/material/dialog'
+import {
+  BrowserModule,
+  provideClientHydration,
+} from '@angular/platform-browser';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './pages/components/sidebar/sidebar.component';
@@ -28,7 +31,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NewSubStoreComponent } from './Modules/user/components/settings/stores/pages/sub-store/components/new-sub-store/new-sub-store.component';
@@ -42,6 +45,13 @@ import { NavbarMenuComponent } from './pages/components/navbar/navbar-menu/navba
 import { NavbarMobileComponent } from './pages/components/navbar/navbar-mobile/navbar-mobile.component';
 import { NavbarMobileMenuComponent } from './pages/components/navbar/navbar-mobile/navbar-mobile-menu/navbar-mobile-menu.component';
 import { NavbarMobileSubmenuComponent } from './pages/components/navbar/navbar-mobile/navbar-mobile-submenu/navbar-mobile-submenu.component';
+import { ToastrModule } from 'ngx-toastr';
+import { NgToastModule } from 'ng-angular-popup';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NewItemComponent } from './Modules/user/components/items/components/new-item/new-item.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { PrintPopupComponent } from './Modules/user/components/stock-adjustemnt/components/print-popup/print-popup.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,7 +82,8 @@ import { NavbarMobileSubmenuComponent } from './pages/components/navbar/navbar-m
     NavbarMobileComponent,
     NavbarMobileMenuComponent,
     NavbarMobileSubmenuComponent,
-
+    NewItemComponent,
+    PrintPopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,12 +101,13 @@ import { NavbarMobileSubmenuComponent } from './pages/components/navbar/navbar-m
     MatMenuModule,
     HttpClientModule,
     MatSelectModule,
-
+    ToastrModule.forRoot(),
+    NgToastModule,
+    MatSnackBarModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule
   ],
-  providers: [
-    provideClientHydration(),
-    provideAnimationsAsync()
-  ],
-  bootstrap: [AppComponent]
+  providers: [provideClientHydration(), provideAnimationsAsync()],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

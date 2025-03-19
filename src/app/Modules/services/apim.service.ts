@@ -6,6 +6,8 @@ import { Category } from '../models/categoryModel';
 import { MainStore } from '../models/mainstoreModel';
 import { SubStore } from '../models/substoreModule';
 import { Island } from '../models/islandModel';
+import { adjustStock, item } from '../models/itemModel';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -68,4 +70,37 @@ export class ApimService {
   getSubstoresByMainId(_id: number) {
     return this.http.get<any>(this.baseUrl + 'substores/by/' + _id);
   }
+
+  getItems() {
+    return this.http.get<any>(this.baseUrl + 'items');
+  }
+
+  getIslandsBySubId(_id: number) {
+    return this.http.get<any>(this.baseUrl + 'islands/by/' + _id);
+  }
+
+  createItem(_data: item) {
+    return this.http.post<any>(this.baseUrl + 'item/create', _data, {
+      withCredentials: true,
+    });
+  }
+
+  getAllStocks() {
+    return this.http.get<any>(this.baseUrl + 'stock/items');
+  }
+
+  adjustItemStock(_data: adjustStock) {
+    return this.http.post<any>(this.baseUrl + 'stock/create', _data, {
+      withCredentials: true,
+    });
+  }
+
+  getLastStocksPdf(_data: any): Observable<Blob> {
+    return this.http.get(this.baseUrl + '/stock/last/items/pdf', {
+      params: _data,
+      withCredentials: true,
+      responseType: 'blob' // Ensures the response is a PDF file
+    });
+  }
+  
 }
