@@ -19,4 +19,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     width: 100%;
     z-index: 1000;
   }
+
+  .btn-bg {
+    background-color: #dd6f2f;
+    color: white;
+  }
+
+  .btn-bg:hover {
+    background-color: #df5809;
+    color: white;
+  }
   

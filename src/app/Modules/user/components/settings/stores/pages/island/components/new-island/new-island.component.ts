@@ -4,6 +4,7 @@ import { ApimService } from '../../../../../../../../services/apim.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SubStore } from '../../../../../../../../models/substoreModule';
 import { Island } from '../../../../../../../../models/islandModel';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-new-island',
@@ -16,11 +17,13 @@ export class NewIslandComponent implements OnInit {
   subStores!: any;
   selectedMainStore: number = 0;
   selectedSubStore: number = 0;
+  isLoading: boolean = false;
 
   constructor(
     private _fb: FormBuilder,
     private _dialogRef: MatDialogRef<NewIslandComponent>,
-    private _apim: ApimService
+    private _apim: ApimService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +37,7 @@ export class NewIslandComponent implements OnInit {
 
   onAddIsland() {
     if (this.form.valid) {
+      this.isLoading = true; 
       let data = this.form.value;
       let Obj: Island = {
         mainStoreId: this.selectedMainStore,
@@ -43,8 +47,25 @@ export class NewIslandComponent implements OnInit {
       };
 
       this._apim.createIsland(Obj).subscribe((response) => {
-        console.log(response);
-        this._dialogRef.close();
+        setTimeout(() => {
+          this.isLoading = false; // Hide loader when data loads
+          this._dialogRef.close();
+          this._snackBar.open('Island Added', 'Close', {
+            duration: 3000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'center',
+            panelClass: ['mat-accent'],
+          });
+        }, 1000);
+      },
+      (error) => {
+        console.log(error);
+        this._snackBar.open(error.error.error, 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+        });
+        this.isLoading = false;
       });
     } else {
       console.log('Form is invalid');

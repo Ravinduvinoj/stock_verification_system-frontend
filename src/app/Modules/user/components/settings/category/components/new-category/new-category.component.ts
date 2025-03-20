@@ -4,6 +4,7 @@ import { NewComComponent } from '../../../company/components/new-com/new-com.com
 import { MatDialogRef } from '@angular/material/dialog';
 import { Category } from '../../../../../../models/categoryModel';
 import { ApimService } from '../../../../../../services/apim.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-new-category',
@@ -12,11 +13,13 @@ import { ApimService } from '../../../../../../services/apim.service';
 })
 export class NewCategoryComponent implements OnInit {
   form!: FormGroup;
+  isLoading: boolean = false;
 
   constructor(
     private _fb: FormBuilder,
     private _dialogRef: MatDialogRef<NewCategoryComponent>,
-    private _apim: ApimService
+    private _apim: ApimService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +32,7 @@ export class NewCategoryComponent implements OnInit {
 
   onCatAdd() {
     if (this.form.valid) {
+      this.isLoading = true; // Show loader when data is being fetched
       let data = this.form.value;
       let Obj: Category = {
         categoryCode: data.CatCode,
@@ -36,8 +40,25 @@ export class NewCategoryComponent implements OnInit {
       };
 
       this._apim.createCategory(Obj).subscribe((response) => {
-        console.log(response);
-        this._dialogRef.close();
+        setTimeout(() => {
+          this.isLoading = false; // Hide loader when data loads
+          this._dialogRef.close();
+          this._snackBar.open('Category Added', 'Close', {
+            duration: 3000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'center',
+            panelClass: ['mat-accent'],
+          });
+        }, 1000);
+      },
+      (error) => {
+        console.log(error);
+        this._snackBar.open(error.error.error, 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+        });
+        this.isLoading = false;
       });
     } else {
       console.log('Form is invalid');

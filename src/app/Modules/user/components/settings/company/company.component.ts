@@ -96,8 +96,10 @@ export class CompanyComponent implements AfterViewInit, OnInit {
 
   createCom() {
     const dialogRef = this.dialog.open(NewComComponent);
-    dialogRef.afterClosed().subscribe(() => {
-      this.getCompanies(); // Call the getCompanies() method to fetch the updated data
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getCompanies();
+      }
     });
   }
 
@@ -182,33 +184,26 @@ export class CompanyComponent implements AfterViewInit, OnInit {
   getCompanies() {
     this.isLoading = true;
     this.dataSource.data = [];
-
     this._apim.getCompanies().subscribe(
       (response) => {
         setTimeout(() => {
           this.isLoading = false; // Hide loader when data loads
           this.dataSource.data = response;
-          this._snackBar.open('Company loaded successfully', 'Close', {
-            duration: 3000,
-            verticalPosition: 'bottom',
-            horizontalPosition: 'center',
-            panelClass: ['mat-accent'],
-          });
-        }, 1000);
-
-        // this._toastr.success('category Created', 'job category creation successfully');
-
-        
+          // this._snackBar.open('Company loaded successfully', 'Close', {
+          //   duration: 3000,
+          //   verticalPosition: 'bottom',
+          //   horizontalPosition: 'center',
+          //   panelClass: ['mat-accent'],
+          // });
+        }, 500);
       },
       (error) => {
-        console.log(error);
-        this._snackBar.open(error.error.message, 'Close', {
+        this._snackBar.open('error connecting the server ' + error, 'Close', {
           duration: 3000,
           verticalPosition: 'bottom',
           horizontalPosition: 'center',
         });
-        this._toastr.error('error', error);
-        // this.isLoaded = true; // Ensure loader disappears even if there's an error
+        this.isLoading = false;
       }
     );
   }

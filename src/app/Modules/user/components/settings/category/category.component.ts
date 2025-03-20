@@ -8,6 +8,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatMenuTrigger } from '@angular/material/menu';
 import FileSaver from 'file-saver';
 import { ApimService } from '../../../../services/apim.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface category {
   id: string;
@@ -33,9 +34,13 @@ export class CategoryComponent implements AfterViewInit, OnInit {
   dataSource = new MatTableDataSource<category>(this.ELEMENT_DATA);
   selection = new SelectionModel<category>(true, []);
   selectedRow: any;
-  isLoaded: boolean = false;
+  isLoading: boolean = false;
 
-  constructor(public dialog: MatDialog, private _apim: ApimService) {}
+  constructor(
+    public dialog: MatDialog,
+    private _apim: ApimService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.getCategories();
@@ -89,8 +94,10 @@ export class CategoryComponent implements AfterViewInit, OnInit {
 
   createCategory() {
     const dialogRef = this.dialog.open(NewCategoryComponent);
-    dialogRef.afterClosed().subscribe(() => {
-      this.getCategories(); // Call the getCompanies() method to fetch the updated data
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getCategories();
+      }
     });
   }
 
@@ -174,16 +181,28 @@ export class CategoryComponent implements AfterViewInit, OnInit {
   }
 
   getCategories() {
-    this.isLoaded = false;
+    this.isLoading = true;
     this._apim.getCategories().subscribe(
       (response) => {
-        console.log(response);
-        this.dataSource.data = response;
-        this.isLoaded = true;
+        setTimeout(() => {
+          this.isLoading = false; // Hide loader when data loads
+          this.dataSource.data = response;
+          // this._snackBar.open('Company loaded successfully', 'Close', {
+          //   duration: 3000,
+          //   verticalPosition: 'bottom',
+          //   horizontalPosition: 'center',
+          //   panelClass: ['mat-accent'],
+          // });
+        }, 500);
       },
       (error) => {
         console.log(error);
-        this.isLoaded = true;
+        this._snackBar.open(error.error.error, 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+        });
+        this.isLoading = false;
       }
     );
   }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from '../../services/menu.service';
+import packageJson from '../../../../../package.json';
 
 @Component({
   selector: 'app-new-sidebar',
@@ -7,7 +8,7 @@ import { MenuService } from '../../services/menu.service';
   styleUrl: './new-sidebar.component.css'
 })
 export class NewSidebarComponent implements OnInit{
-  // public appJson: any = packageJson;
+   public appJson: any = packageJson;
 
   constructor(public menuService: MenuService) {}
 

@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import FileSaver from 'file-saver';
 import { ApimService } from '../../../../../../services/apim.service';
 import { NewSubStoreComponent } from './components/new-sub-store/new-sub-store.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface subStore {
   id: string;
@@ -36,12 +37,12 @@ export class SubStoreComponent implements AfterViewInit, OnInit {
   dataSource = new MatTableDataSource<subStore>(this.ELEMENT_DATA);
   selection = new SelectionModel<subStore>(true, []);
   selectedRow: any;
-  isLoaded: boolean = false;
+  isLoading: boolean = false;
 
-  constructor(public dialog: MatDialog, private _apim: ApimService) {}
+  constructor(public dialog: MatDialog, private _apim: ApimService,private _snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-    this.getCategories();
+    this.getSubStores();
   }
 
   ngAfterViewInit() {
@@ -92,8 +93,10 @@ export class SubStoreComponent implements AfterViewInit, OnInit {
 
   createSubStore() {
     const dialogRef = this.dialog.open(NewSubStoreComponent);
-    dialogRef.afterClosed().subscribe(() => {
-      this.getCategories(); // Call the getCompanies() method to fetch the updated data
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getSubStores();
+      }
     });
   }
 
@@ -176,17 +179,29 @@ export class SubStoreComponent implements AfterViewInit, OnInit {
     );
   }
 
-  getCategories() {
-    this.isLoaded = false;
+  getSubStores() {
+    this.isLoading = true;
     this._apim.getSubStores().subscribe(
       (response) => {
-        console.log(response);
-        this.dataSource.data = response;
-        this.isLoaded = true;
+        setTimeout(() => {
+          this.isLoading = false; // Hide loader when data loads
+          this.dataSource.data = response;
+          // this._snackBar.open('Company loaded successfully', 'Close', {
+          //   duration: 3000,
+          //   verticalPosition: 'bottom',
+          //   horizontalPosition: 'center',
+          //   panelClass: ['mat-accent'],
+          // });
+        }, 500);
       },
       (error) => {
         console.log(error);
-        this.isLoaded = true;
+        this._snackBar.open(error.error.error, 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+        });
+        this.isLoading = false;
       }
     );
   }

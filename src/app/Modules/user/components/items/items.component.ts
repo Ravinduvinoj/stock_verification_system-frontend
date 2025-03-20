@@ -100,8 +100,10 @@ export class ItemsComponent implements AfterViewInit, OnInit {
 
   createItem() {
     const dialogRef = this.dialog.open(NewItemComponent);
-    dialogRef.afterClosed().subscribe(() => {
-      this.getItems();
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getItems();
+      }
     });
   }
 
@@ -192,17 +194,17 @@ export class ItemsComponent implements AfterViewInit, OnInit {
         setTimeout(() => {
           this.isLoading = false; // Hide loader when data loads
           this.dataSource.data = response;
-          this._snackBar.open('items loaded successfully', 'Close', {
-            duration: 3000,
-            verticalPosition: 'bottom',
-            horizontalPosition: 'center',
-            panelClass: ['mat-accent'],
-          });
-        }, 1000);
+          // this._snackBar.open('items loaded successfully', 'Close', {
+          //   duration: 3000,
+          //   verticalPosition: 'bottom',
+          //   horizontalPosition: 'center',
+          //   panelClass: ['mat-accent'],
+          // });
+        }, 500);
       },
       (error) => {
         console.log(error);
-        this._snackBar.open(error.message, 'Close', {
+        this._snackBar.open(error.error.error, 'Close', {
           duration: 3000,
           verticalPosition: 'bottom',
           horizontalPosition: 'center',

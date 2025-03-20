@@ -8,6 +8,7 @@ import { ApimService } from '../../../../../../services/apim.service';
 import { NewIslandComponent } from './components/new-island/new-island.component';
 import { MatMenuTrigger } from '@angular/material/menu';
 import FileSaver from 'file-saver';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface islands {
   id: string;
@@ -20,7 +21,7 @@ export interface islands {
 @Component({
   selector: 'app-island',
   templateUrl: './island.component.html',
-  styleUrl: './island.component.css'
+  styleUrl: './island.component.css',
 })
 export class IslandComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -37,9 +38,13 @@ export class IslandComponent implements AfterViewInit, OnInit {
   dataSource = new MatTableDataSource<islands>(this.ELEMENT_DATA);
   selection = new SelectionModel<islands>(true, []);
   selectedRow: any;
-  isLoaded: boolean = false;
+  isLoading: boolean = false;
 
-  constructor(public dialog: MatDialog, private _apim: ApimService) {}
+  constructor(
+    public dialog: MatDialog,
+    private _apim: ApimService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.getCategories();
@@ -93,8 +98,10 @@ export class IslandComponent implements AfterViewInit, OnInit {
 
   createIsland() {
     const dialogRef = this.dialog.open(NewIslandComponent);
-    dialogRef.afterClosed().subscribe(() => {
-      this.getCategories(); // Call the getCompanies() method to fetch the updated data
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result){
+        this.getCategories(); 
+      }
     });
   }
 
@@ -178,16 +185,28 @@ export class IslandComponent implements AfterViewInit, OnInit {
   }
 
   getCategories() {
-    this.isLoaded = false;
+    this.isLoading = true;
     this._apim.getIslands().subscribe(
       (response) => {
-        console.log(response);
-        this.dataSource.data = response;
-        this.isLoaded = true;
+        setTimeout(() => {
+          this.isLoading = false; // Hide loader when data loads
+          this.dataSource.data = response;
+          // this._snackBar.open('Company loaded successfully', 'Close', {
+          //   duration: 3000,
+          //   verticalPosition: 'bottom',
+          //   horizontalPosition: 'center',
+          //   panelClass: ['mat-accent'],
+          // });
+        }, 500);
       },
       (error) => {
         console.log(error);
-        this.isLoaded = true;
+        this._snackBar.open(error.error.error, 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+        });
+        this.isLoading = false;
       }
     );
   }

@@ -12,6 +12,7 @@ import { NewCategoryComponent } from '../settings/category/components/new-catego
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { adjustStock } from '../../../models/itemModel';
 import { PrintPopupComponent } from './components/print-popup/print-popup.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-stock-adjustemnt',
@@ -32,13 +33,15 @@ export class StockAdjustemntComponent implements AfterViewInit, OnInit {
   dataSource = new MatTableDataSource<category>(this.ELEMENT_DATA);
   selection = new SelectionModel<category>(true, []);
   selectedRow: any;
-  isLoaded: boolean = false;
+  isLoading: boolean = false;
+  isStockAddingLoading: boolean = false;
   form!: FormGroup;
 
   constructor(
     private _fb: FormBuilder,
     public dialog: MatDialog,
-    private _apim: ApimService
+    private _apim: ApimService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -177,52 +180,73 @@ export class StockAdjustemntComponent implements AfterViewInit, OnInit {
   }
 
   getStockItems() {
-    this.isLoaded = false;
+    this.isLoading = true;
+    this.dataSource.data = [];
     this._apim.getAllStocks().subscribe(
       (response) => {
-        console.log(response);
-        this.dataSource.data = response;
-        this.isLoaded = true;
+        setTimeout(() => {
+          this.isLoading = false; // Hide loader when data loads
+          this.dataSource.data = response;
+        }, 1000);
       },
       (error) => {
         console.log(error);
-        this.isLoaded = true;
+        this.isLoading = false;
+        this._snackBar.open(error, 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+          panelClass: ['mat-accent'],
+        });
       }
     );
   }
 
   onstockAdd() {
-    console.log('Form:', this.form.value);
     if (this.form.valid) {
+      this.isStockAddingLoading = true;
       let data = this.form.value;
       let Obj: adjustStock = {
         itemCode: data.itemCode,
         quantity: data.quantity,
       };
-
       this._apim.adjustItemStock(Obj).subscribe((response) => {
-        const dialogRef = this.dialog.open(PrintPopupComponent);
-        dialogRef.afterClosed().subscribe((result) => {
-          if (result) {
-            this._apim.getLastStocksPdf(Obj).subscribe(
-              (response) => {
-                console.log('Last Stock:', response);
-                const blob = new Blob([response], { type: 'application/pdf' });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `last_stock_report.pdf`; // Customize the filename
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-              },
-              (error) => {
-                console.log(error);
-              }
-            );
-          }
-        });
-        this.getStockItems();
+        setTimeout(() => {
+          this.isStockAddingLoading = false; // Hide loader when data loads
+          this._snackBar.open('Stock Adjusted', 'Close', {
+            duration: 3000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'center',
+            panelClass: ['mat-accent'],
+          });
+          this.getStockItems();
+          const dialogRef = this.dialog.open(PrintPopupComponent);
+          dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+              this._apim.getLastStocksPdf(Obj).subscribe(
+                (response) => {
+                  // const blob = new Blob([response], { type: 'application/pdf' });
+                  // const url = window.URL.createObjectURL(blob);
+                  // const a = document.createElement('a');
+                  // a.href = url;
+                  // a.download = `last_stock_report.pdf`; // Customize the filename
+                  // document.body.appendChild(a);
+                  // a.click();
+                  // document.body.removeChild(a);
+
+                  const blob = new Blob([response], {
+                    type: 'application/pdf',
+                  });
+                  const url = window.URL.createObjectURL(blob);
+                  window.open(url, '_blank'); // Open in a new tab
+                },
+                (error) => {
+                  console.log(error);
+                }
+              );
+            }
+          });
+        }, 1000);
       });
     } else {
       console.log('Form is invalid');

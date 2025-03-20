@@ -8,6 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ApimService } from '../../../../../../services/apim.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface mainStore {
   id: string;
@@ -18,7 +19,7 @@ export interface mainStore {
 @Component({
   selector: 'app-main-store',
   templateUrl: './main-store.component.html',
-  styleUrl: './main-store.component.css'
+  styleUrl: './main-store.component.css',
 })
 export class MainStoreComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -34,12 +35,16 @@ export class MainStoreComponent implements AfterViewInit, OnInit {
   dataSource = new MatTableDataSource<mainStore>(this.ELEMENT_DATA);
   selection = new SelectionModel<mainStore>(true, []);
   selectedRow: any;
-  isLoaded: boolean = false;
+  isLoading: boolean = false;
 
-  constructor(public dialog: MatDialog, private _apim: ApimService) {}
+  constructor(
+    public dialog: MatDialog,
+    private _apim: ApimService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
-    this.getCategories();
+    this.getMainstores();
   }
 
   ngAfterViewInit() {
@@ -90,8 +95,10 @@ export class MainStoreComponent implements AfterViewInit, OnInit {
 
   createMainStore() {
     const dialogRef = this.dialog.open(NewMainStoreComponent);
-    dialogRef.afterClosed().subscribe(() => {
-      this.getCategories(); // Call the getCompanies() method to fetch the updated data
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getMainstores();
+      }
     });
   }
 
@@ -174,17 +181,29 @@ export class MainStoreComponent implements AfterViewInit, OnInit {
     );
   }
 
-  getCategories() {
-    this.isLoaded = false;
+  getMainstores() {
+    this.isLoading = true;
     this._apim.getMainstores().subscribe(
       (response) => {
-        console.log(response);
-        this.dataSource.data = response;
-        this.isLoaded = true;
+        setTimeout(() => {
+          this.isLoading = false; // Hide loader when data loads
+          this.dataSource.data = response;
+          // this._snackBar.open('Company loaded successfully', 'Close', {
+          //   duration: 3000,
+          //   verticalPosition: 'bottom',
+          //   horizontalPosition: 'center',
+          //   panelClass: ['mat-accent'],
+          // });
+        }, 500);
       },
       (error) => {
         console.log(error);
-        this.isLoaded = true;
+        this._snackBar.open(error.error.error, 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+        });
+        this.isLoading = false;
       }
     );
   }

@@ -59,14 +59,22 @@ export class NewItemComponent implements OnInit {
       this._apim.createItem(Obj).subscribe((response) => {
         setTimeout(() => {
           this.isLoading = false; // Hide loader when data loads
-          this._snackBar.open('items Created', 'Close', {
+          this._dialogRef.close();
+          this._snackBar.open('item Added', 'Close', {
             duration: 3000,
             verticalPosition: 'bottom',
             horizontalPosition: 'center',
             panelClass: ['mat-accent'],
           });
-          this._dialogRef.close();
-        }, 100);
+        }, 1000);
+      },
+      (error) => {
+        this._snackBar.open(error.error.error, 'Close', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+        });
+        this.isLoading = false;
       });
     } else {
       console.log('Form is invalid');
